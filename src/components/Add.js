@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { receive_img } from "../utils/constants";
+import Sort from "./Sort/Sort";
 
 const Add = () => {
+  const [showSort, setShowSort] = useState(false);
+
+  const handleSort = () => {
+    setShowSort(!showSort);
+  };
+
   return (
     <div className="border border-r w-[40%]">
       <div className="flex justify-between px-10 py-6">
@@ -12,10 +19,13 @@ const Add = () => {
           </p>
         </div>
         <div className="text-xl">
-          <i class="uil uil-scroll px-2 text-gray-400"></i>
+          <button onClick={handleSort}>
+            <i class="uil uil-scroll px-2 text-gray-400"></i>
+          </button>
           <i class="uil uil-ellipsis-h px-2 text-gray-400"></i>
         </div>
       </div>
+      {showSort && <Sort />}
       <div>
         <img
           className="opacity-30 w-[20%] mx-auto mt-14"
