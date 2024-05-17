@@ -2,7 +2,7 @@ import React from "react";
 
 const Sort = () => {
   return (
-    <div className="absolute left-[38%] z-10 rounded-xl w-96 h-[66%] bg-white shadow-lg p-4">
+    <div className="absolute left-[20%] top-80 z-10 rounded-xl w-96 h-[66%] bg-white shadow-lg p-4">
       <div className="font-semibold text-lg flex justify-between">
         <div className="flex">
           <i class="uil uil-envelope text-blue-500 text-xl"></i>
@@ -34,13 +34,13 @@ const Sort = () => {
           <i class="uil uil-angle-up text-blue-500 text-xl"></i>
         </p>
         <div className="text-gray-600">
-          <input type="checkbox" className="size-4" /> is not any of
+          <input type="checkbox" className="size-4" /> John Doe
         </div>
         <div className="text-gray-600">
-          <input type="checkbox" className="size-4" /> is known
+          <input type="checkbox" className="size-4" /> Peter England
         </div>
         <div className="text-gray-600">
-          <input type="checkbox" className="size-4" /> is unknown
+          <input type="checkbox" className="size-4" /> Henry Paul
         </div>
         <p className="text-gray-600 mt-4">Boolean Operators</p>
         <input
