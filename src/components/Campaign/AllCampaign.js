@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import { data } from "../../utils/data";
+import { useSelector } from "react-redux";
+import { selectFilters } from "../../utils/sortSlice";
 
 const AllCampaign = () => {
   const [showSort, setShowSort] = useState(false);
+  const filters = useSelector(selectFilters);
+
+  const filteredData = data.filter((item) => {
+    if (filters.johnDoe && item.associate === "John Doe") return true;
+    if (filters.peterEngland && item.associate === "Peter England") return true;
+    if (filters.henryPaul && item.associate === "Henry Paul") return true;
+    return false;
+  });
 
   const handleSort = () => {
     setShowSort(!showSort);
@@ -46,7 +56,7 @@ const AllCampaign = () => {
           </div>
         </div>
       </div>
-      {data.map((item) => (
+      {(filteredData.length > 0 ? filteredData : data).map((item) => (
         <div className="mx-14 my-10">
           <div className="font-semibold my-2 text-gray-600 bg-gray-100 p-2 px-5 rounded-lg">
             <i class="uil uil-megaphone"></i> {item.campaignName}
@@ -62,7 +72,8 @@ const AllCampaign = () => {
                   <i class="uil uil-clipboard-notes"></i> {item.taskTitle}{" "}
                 </div>
                 <div className="text-xs text-blue-500">
-                <i class="uil uil-constructor"></i> {item.status} <i class="uil uil-calendar-slash"></i> {item.dueDate}
+                  <i class="uil uil-constructor"></i> {item.status}{" "}
+                  <i class="uil uil-calendar-slash"></i> {item.dueDate}
                 </div>
               </div>
             ))}

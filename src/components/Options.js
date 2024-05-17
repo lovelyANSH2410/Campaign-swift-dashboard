@@ -146,7 +146,7 @@ const Options = () => {
         </div>
       </div>
       <div className="w-[42%]">
-        {!addCampaign ? <AddCampaign /> : <AllCampaign />}
+        {addCampaign ? <AddCampaign /> : <AllCampaign />}
       </div>
       <div className="w-[42%]">
         <Show />

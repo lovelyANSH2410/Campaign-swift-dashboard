@@ -1,6 +1,15 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectFilters, toggleFilter } from "../../utils/sortSlice";
 
 const Sort = () => {
+  const dispatch = useDispatch();
+  const filters = useSelector(selectFilters);
+
+  const handleToggleFilter = (filterName) => {
+    dispatch(toggleFilter({ filterName }));
+  };
+
   return (
     <div className="absolute left-[20%] top-80 z-10 rounded-xl w-96 h-[66%] bg-white shadow-lg p-4">
       <div className="font-semibold text-lg flex justify-between">
@@ -34,13 +43,31 @@ const Sort = () => {
           <i class="uil uil-angle-up text-blue-500 text-xl"></i>
         </p>
         <div className="text-gray-600">
-          <input type="checkbox" className="size-4" /> John Doe
+          <input
+            type="checkbox"
+            className="size-4"
+            checked={filters.johnDoe}
+            onChange={() => handleToggleFilter("johnDoe")}
+          />{" "}
+          John Doe
         </div>
         <div className="text-gray-600">
-          <input type="checkbox" className="size-4" /> Peter England
+          <input
+            type="checkbox"
+            className="size-4"
+            checked={filters.peterEngland}
+            onChange={() => handleToggleFilter("peterEngland")}
+          />{" "}
+          Peter England
         </div>
         <div className="text-gray-600">
-          <input type="checkbox" className="size-4" /> Henry Paul
+          <input
+            type="checkbox"
+            className="size-4"
+            checked={filters.henryPaul}
+            onChange={() => handleToggleFilter("henryPaul")}
+          />{" "}
+          Henry Paul
         </div>
         <p className="text-gray-600 mt-4">Boolean Operators</p>
         <input
