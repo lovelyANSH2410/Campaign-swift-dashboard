@@ -7,7 +7,7 @@ const AllCampaign = () => {
   const [showSort, setShowSort] = useState(false);
   const filters = useSelector(selectFilters);
   const [activeTask, setActiveTask] = useState(null);
-  const [campaignData, setCampaignData] = useState(data); 
+  const [campaignData, setCampaignData] = useState(data); // Create a new state to manage data
 
   const filteredData = campaignData.filter((item) => {
     if (filters.johnDoe && item.associate === "John Doe") return true;
@@ -34,9 +34,14 @@ const AllCampaign = () => {
 
     newData[sourceCampaignIndex].folders.tasks.splice(sourceTaskIndex, 1);
 
+    if (newData[index1].folders.tasks.length === 0) {
+      index2 = 0;
+    }
+
     newData[index1].folders.tasks.splice(index2, 0, sourceTask);
 
     setCampaignData(newData);
+    setActiveTask(null); // Reset active task
   };
 
   const onDragStart = (index1, index2) => {
@@ -95,25 +100,35 @@ const AllCampaign = () => {
                   {item.folders.folderTitle}
                 </div>
                 <ul>
-                  {item.folders.tasks.map((task, index2) => (
+                  {item.folders.tasks.length === 0 ? (
                     <li
-                      key={index2}
-                      className="flex justify-between text-gray-600 py-2 border-b mx-20 active:opacity-50 active:cursor-grab"
-                      draggable
-                      onDragStart={() => onDragStart(index1, index2)}
-                      onDragEnd={() => setActiveTask(null)}
-                      onDrop={() => onDrop(index1, index2)}
+                      className="text-gray-600 py-2 border-b mx-20 italic"
+                      onDrop={() => onDrop(index1, 0)}
                       onDragOver={(e) => e.preventDefault()}
                     >
-                      <div>
-                        <i className="uil uil-clipboard-notes"></i> {task.taskTitle}{" "}
-                      </div>
-                      <div className="text-xs text-blue-500">
-                        <i className="uil uil-constructor"></i> {task.status}{" "}
-                        <i className="uil uil-calendar-slash"></i> {task.dueDate}
-                      </div>
+                      Empty
                     </li>
-                  ))}
+                  ) : (
+                    item.folders.tasks.map((task, index2) => (
+                      <li
+                        key={index2}
+                        className="flex justify-between text-gray-600 py-2 border-b mx-20 active:opacity-50 active:cursor-grab"
+                        draggable
+                        onDragStart={() => onDragStart(index1, index2)}
+                        onDragEnd={() => setActiveTask(null)}
+                        onDrop={() => onDrop(index1, index2)}
+                        onDragOver={(e) => e.preventDefault()}
+                      >
+                        <div>
+                          <i className="uil uil-clipboard-notes"></i> {task.taskTitle}{" "}
+                        </div>
+                        <div className="text-xs text-blue-500">
+                          <i className="uil uil-constructor"></i> {task.status}{" "}
+                          <i className="uil uil-calendar-slash"></i> {task.dueDate}
+                        </div>
+                      </li>
+                    ))
+                  )}
                 </ul>
               </li>
             )
