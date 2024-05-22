@@ -2,12 +2,19 @@ import React, { useState } from "react";
 import { data } from "../../utils/data";
 import { useSelector } from "react-redux";
 import { selectFilters } from "../../utils/sortSlice";
+import Task from "./Task";
+import AddOption from "./AddOption";
+import { DndContext, closestCorners } from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 const AllCampaign = () => {
   const [showSort, setShowSort] = useState(false);
   const filters = useSelector(selectFilters);
-  const [activeTask, setActiveTask] = useState(null);
-  const [campaignData, setCampaignData] = useState(data); // Create a new state to manage data
+  const [campaignData, setCampaignData] = useState(data);
 
   const filteredData = campaignData.filter((item) => {
     if (filters.johnDoe && item.associate === "John Doe") return true;
@@ -16,36 +23,31 @@ const AllCampaign = () => {
     return false;
   });
 
+  const getTaskPos = (tasks, id) => tasks.findIndex((task) => task.id === id);
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) return;
+
+    setCampaignData((campaignData) => {
+      const newCampaignData = [...campaignData];
+      newCampaignData.forEach((campaign) => {
+        const tasks = campaign.folders.tasks;
+        const originalPos = getTaskPos(tasks, active.id);
+        const newPos = getTaskPos(tasks, over.id);
+
+        if (originalPos !== -1 && newPos !== -1) {
+          campaign.folders.tasks = arrayMove(tasks, originalPos, newPos);
+        }
+      });
+
+      return newCampaignData;
+    });
+  };
+
   const handleSort = () => {
     setShowSort(!showSort);
-  };
-
-  const onDrop = (index1, index2) => {
-    console.log(
-      `${activeTask} is going to place into ${index1} and at the position ${index2}`
-    );
-
-    if (activeTask == null || activeTask === undefined) return;
-
-    const newData = JSON.parse(JSON.stringify(campaignData));
-
-    const [sourceCampaignIndex, sourceTaskIndex] = activeTask;
-    const sourceTask = newData[sourceCampaignIndex].folders.tasks[sourceTaskIndex];
-
-    newData[sourceCampaignIndex].folders.tasks.splice(sourceTaskIndex, 1);
-
-    if (newData[index1].folders.tasks.length === 0) {
-      index2 = 0;
-    }
-
-    newData[index1].folders.tasks.splice(index2, 0, sourceTask);
-
-    setCampaignData(newData);
-    setActiveTask(null); // Reset active task
-  };
-
-  const onDragStart = (index1, index2) => {
-    setActiveTask([index1, index2]);
   };
 
   return (
@@ -62,78 +64,30 @@ const AllCampaign = () => {
           <i className="uil uil-ellipsis-h px-2 text-gray-400"></i>
         </div>
       </div>
-      <div className="m-14 mt-10">
-        <div className="bg-gray-100 p-2 px-5 rounded-lg flex justify-between">
-          <div className="flex font-semibold">
-            <i className="uil uil-plus"></i>
-            <p>Add New</p>
-          </div>
-          <div className="">
-            <div className="mx-4">
-              <label className="mx-3">
-                <input type="radio" name="set" /> Campaign
-              </label>
-              <label className="mx-3">
-                <input type="radio" name="set" /> Task
-              </label>
-              <label className="mx-3">
-                <input type="radio" name="set" /> Note
-              </label>
-              <label className="mx-3">
-                <input type="radio" name="set" /> Folder
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="">
-        <ul>
-          {(filteredData.length > 0 ? filteredData : campaignData).map(
-            (item, index1) => (
-              <li className="mx-14 my-5" key={item.associate}>
+      <AddOption />
+      <div>
+        <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
+          <ul>
+            {(filteredData.length > 0 ? filteredData : campaignData).map((item, index1) => (
+              <li className="mx-14 my-5" key={item.id}>
                 <div className="font-semibold my-2 text-gray-600 bg-gray-100 p-2 px-5 rounded-lg">
                   <i className="uil uil-megaphone"></i> {item.campaignName}
                 </div>
                 <div className="text-gray-600 mx-6 py-1 border-b">
                   <i className="uil uil-angle-right-b"></i>{" "}
-                  <i className="uil uil-folder-minus"></i>{" "}
-                  {item.folders.folderTitle}
+                  <i className="uil uil-folder-minus"></i> {item.folders.folderTitle}
                 </div>
-                <ul>
-                  {item.folders.tasks.length === 0 ? (
-                    <li
-                      className="text-gray-600 py-2 border-b mx-20 italic"
-                      onDrop={() => onDrop(index1, 0)}
-                      onDragOver={(e) => e.preventDefault()}
-                    >
-                      Empty
-                    </li>
-                  ) : (
-                    item.folders.tasks.map((task, index2) => (
-                      <li
-                        key={index2}
-                        className="flex justify-between text-gray-600 py-2 border-b mx-20 active:opacity-50 active:cursor-grab"
-                        draggable
-                        onDragStart={() => onDragStart(index1, index2)}
-                        onDragEnd={() => setActiveTask(null)}
-                        onDrop={() => onDrop(index1, index2)}
-                        onDragOver={(e) => e.preventDefault()}
-                      >
-                        <div>
-                          <i className="uil uil-clipboard-notes"></i> {task.taskTitle}{" "}
-                        </div>
-                        <div className="text-xs text-blue-500">
-                          <i className="uil uil-constructor"></i> {task.status}{" "}
-                          <i className="uil uil-calendar-slash"></i> {task.dueDate}
-                        </div>
-                      </li>
-                    ))
-                  )}
-                </ul>
+                <SortableContext items={item.folders.tasks} strategy={verticalListSortingStrategy}>
+                  <ul>
+                    {item.folders.tasks.map((task, index2) => (
+                      <Task key={task.id} id={task.id} item={task} index1={index1} index2={index2} />
+                    ))}
+                  </ul>
+                </SortableContext>
               </li>
-            )
-          )}
-        </ul>
+            ))}
+          </ul>
+        </DndContext>
       </div>
     </div>
   );
