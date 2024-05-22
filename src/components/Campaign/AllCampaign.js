@@ -7,7 +7,6 @@ import AddOption from "./AddOption";
 import { DndContext, closestCorners } from "@dnd-kit/core";
 import {
   SortableContext,
-  arrayMove,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
@@ -23,7 +22,29 @@ const AllCampaign = () => {
     return false;
   });
 
-  const getTaskPos = (tasks, id) => tasks.findIndex((task) => task.id === id);
+  const findAndRemoveTask = (tasks, id) => {
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].id === id) {
+        return tasks.splice(i, 1)[0];
+      }
+      if (tasks[i].folders?.tasks) {
+        const found = findAndRemoveTask(tasks[i].folders.tasks, id);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+
+  const findTaskContainer = (tasks, id) => {
+    for (let task of tasks) {
+      if (task.id === id) return tasks;
+      if (task.folders?.tasks) {
+        const container = findTaskContainer(task.folders.tasks, id);
+        if (container) return container;
+      }
+    }
+    return null;
+  };
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -32,15 +53,23 @@ const AllCampaign = () => {
 
     setCampaignData((campaignData) => {
       const newCampaignData = [...campaignData];
-      newCampaignData.forEach((campaign) => {
-        const tasks = campaign.folders.tasks;
-        const originalPos = getTaskPos(tasks, active.id);
-        const newPos = getTaskPos(tasks, over.id);
+      let activeTask = null;
 
-        if (originalPos !== -1 && newPos !== -1) {
-          campaign.folders.tasks = arrayMove(tasks, originalPos, newPos);
+      for (let campaign of newCampaignData) {
+        if (!activeTask) activeTask = findAndRemoveTask(campaign.folders.tasks, active.id);
+        if (activeTask) break;
+      }
+
+      if (activeTask) {
+        for (let campaign of newCampaignData) {
+          const container = findTaskContainer(campaign.folders.tasks, over.id);
+          if (container) {
+            const overIndex = container.findIndex(task => task.id === over.id);
+            container.splice(overIndex, 0, activeTask);
+            break;
+          }
         }
-      });
+      }
 
       return newCampaignData;
     });
@@ -77,10 +106,10 @@ const AllCampaign = () => {
                   <i className="uil uil-angle-right-b"></i>{" "}
                   <i className="uil uil-folder-minus"></i> {item.folders.folderTitle}
                 </div>
-                <SortableContext items={item.folders.tasks} strategy={verticalListSortingStrategy}>
+                <SortableContext items={item.folders.tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>
                   <ul>
                     {item.folders.tasks.map((task, index2) => (
-                      <Task key={task.id} id={task.id} item={task} index1={index1} index2={index2} />
+                      <Task key={task.id} id={task.id} item={task} />
                     ))}
                   </ul>
                 </SortableContext>

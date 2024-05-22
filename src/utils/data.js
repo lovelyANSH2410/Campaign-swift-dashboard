@@ -4,54 +4,57 @@ export const data = [
     associate: "John Doe",
     campaignName: "IndiaFont March Pro",
     folders: {
+      id: "folder-1",
       folderTitle: "Folder title",
       tasks: [
         {
-          id: 1,
+          id: "task-1",
           taskTitle: "Task one here",
           status: "In-progress",
           dueDate: "Today",
         },
         {
-          id: 2,
+          id: "task-2",
           taskTitle: "Task two title",
           status: "Completed",
           dueDate: "Tomorrow",
         },
         {
-          id: 3,
+          id: "task-3",
           taskTitle: "Task three name",
           status: "Completed",
           dueDate: "Tomorrow",
         },
         {
+          id: "folder-2",
           folders: {
             folderTitle: "Folder two title",
             tasks: [
               {
-                id: 4,
+                id: "task-4",
                 taskTitle: "Task one here",
                 status: "",
                 dueDate: "",
               },
               {
-                id: 5,
+                id: "task-5",
                 taskTitle: "Task here",
                 status: "",
                 dueDate: "",
               },
               {
+                id: "folder-3",
                 folders: {
                   folderTitle: "Folder Three title",
                   tasks: [
                     {
-                      id: 6,
+                      id: "task-6",
                       taskTitle: "Task one here",
                       status: "",
                       dueDate: "",
                     },
                     {
-                      id: 7,
+                      id: "task-7",
                       taskTitle: "Task here",
                       status: "",
                       dueDate: "",
@@ -70,22 +73,23 @@ export const data = [
     associate: "Peter England",
     campaignName: "IndiaFont April Pro",
     folders: {
+      id: "folder-4",
       folderTitle: "Folder title",
       tasks: [
         {
-          id: 8,
+          id: "task-8",
           taskTitle: "Task one here",
           status: "In-progress",
           dueDate: "Today",
         },
         {
-          id: 9,
+          id: "task-9",
           taskTitle: "Task two title",
           status: "Completed",
           dueDate: "",
         },
         {
-          id: 10,
+          id: "task-10",
           taskTitle: "Task three name",
           status: "Completed",
           dueDate: "",
@@ -98,22 +102,23 @@ export const data = [
     associate: "Henry Paul",
     campaignName: "IndiaFont May Pro",
     folders: {
+      id: "folder-5",
       folderTitle: "Folder title",
       tasks: [
         {
-          id: 11,
+          id: "task-11",
           taskTitle: "Task one here",
           status: "In-progress",
           dueDate: "Today",
         },
         {
-          id: 12,
+          id: "task-12",
           taskTitle: "Task two title",
           status: "Completed",
           dueDate: "Today",
         },
         {
-          id: 13,
+          id: "task-13",
           taskTitle: "Task three name",
           status: "Completed",
           dueDate: "Today",

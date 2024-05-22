@@ -1,11 +1,9 @@
 import React from "react";
-import { useSortable } from "@dnd-kit/sortable";
+import { useSortable, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-const Task = ({ id, item, index1, index2 }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
-
+const Task = ({ id, item }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
   const style = { transition, transform: CSS.Transform.toString(transform) };
 
   return (
@@ -27,7 +25,6 @@ const Task = ({ id, item, index1, index2 }) => {
           </div>
         </div>
       )}
-
       {item.folders && item.folders.tasks && (
         <div className="ml-4">
           <div className="text-gray-600 py-1 border-b flex items-center">
@@ -35,16 +32,13 @@ const Task = ({ id, item, index1, index2 }) => {
             <i className="uil uil-folder-minus ml-1"></i>{" "}
             <span className="ml-1">{item.folders.folderTitle}</span>
           </div>
-          <ul className="pl-4">
-            {item.folders.tasks.map((subTask, index) => (
-              <Task
-                key={subTask.id}
-                item={subTask}
-                index1={index1}
-                index2={index}
-              />
-            ))}
-          </ul>
+          <SortableContext items={item.folders.tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>
+            <ul className="pl-4">
+              {item.folders.tasks.map((subTask) => (
+                <Task id={subTask.id} key={subTask.id} item={subTask} />
+              ))}
+            </ul>
+          </SortableContext>
         </div>
       )}
     </li>
