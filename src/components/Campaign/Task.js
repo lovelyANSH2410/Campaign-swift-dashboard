@@ -32,11 +32,15 @@ const Task = ({ id, item }) => {
             <i className="uil uil-folder-minus ml-1"></i>{" "}
             <span className="ml-1">{item.folders.folderTitle}</span>
           </div>
-          <SortableContext items={item.folders.tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>
+          <SortableContext items={item.folders.tasks.map((task) => task.id)} strategy={verticalListSortingStrategy}>
             <ul className="pl-4">
-              {item.folders.tasks.map((subTask) => (
-                <Task id={subTask.id} key={subTask.id} item={subTask} />
-              ))}
+              {item.folders.tasks.length > 0 ? (
+                item.folders.tasks.map((subTask) => (
+                  <Task id={subTask.id} key={subTask.id} item={subTask} />
+                ))
+              ) : (
+                <div className="text-gray-500 py-2">Drop tasks here</div>
+              )}
             </ul>
           </SortableContext>
         </div>
