@@ -19,6 +19,15 @@ export const EditorWrapper = styled("div")(({ theme }) => ({
       boxShadow: "0 0 10px rgba(0, 0, 0, .1)", // Add shadow to the toolbar box
       display: "flex",
       justifyContent: "center", // Center the toolbar content
+      transition: "opacity 0.3s ease", // Add transition for smooth visibility change
+      "&.hidden": {
+        opacity: 0,
+        pointerEvents: "none"
+      },
+      "&.visible": {
+        opacity: 1,
+        pointerEvents: "all"
+      },
       "& .rdw-option-wrapper, & .rdw-dropdown-wrapper": {
         margin: "0 5px", // Add some margin between the toolbar items
         border: "none"

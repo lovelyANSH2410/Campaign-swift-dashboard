@@ -4,7 +4,8 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorWrapper } from "./TextEditor/EditorWrapper";
 
 const Show = () => {
-  const [editorState, setEditorState] = useState("");
+  const [editorState, setEditorState] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
   const toolbarOptions = {
     options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
@@ -17,6 +18,17 @@ const Show = () => {
     textAlign: {
       options: ['left', 'center', 'right'],
     },
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    // Add a delay to handle blur before checking if the toolbar should be hidden
+    setTimeout(() => {
+      setIsFocused(false);
+    }, 200);
   };
 
   return (
@@ -49,7 +61,9 @@ const Show = () => {
             toolbar={toolbarOptions}
             wrapperClassName="rdw-editor-wrapper"
             editorClassName="rdw-editor-main"
-            toolbarClassName="rdw-editor-toolbar"
+            toolbarClassName={`rdw-editor-toolbar ${isFocused ? 'visible' : 'hidden'}`}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             placeholder="Add Description"
           />
         </EditorWrapper>
