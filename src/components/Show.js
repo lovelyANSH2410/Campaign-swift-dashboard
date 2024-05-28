@@ -2,21 +2,42 @@ import React, { useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorWrapper } from "./TextEditor/EditorWrapper";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBold, faItalic, faUnderline } from '@fortawesome/free-solid-svg-icons';
 
 const Show = () => {
-  const [editorState, setEditorState] = useState('');
+  const [editorState, setEditorState] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   const toolbarOptions = {
-    options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
+    options: [
+      "inline",
+      "blockType",
+      "fontSize",
+      "list",
+      "textAlign",
+      "history",
+    ],
     inline: {
-      options: ['bold', 'italic', 'underline'],
+      options: ["bold", "italic", "underline"],
+      bold: { 
+        icon: <FontAwesomeIcon icon={faBold} />, 
+        className: 'custom-icon' 
+      },
+      italic: { 
+        icon: <FontAwesomeIcon icon={faItalic} />, 
+        className: 'custom-icon' 
+      },
+      underline: { 
+        icon: <FontAwesomeIcon icon={faUnderline} />, 
+        className: 'custom-icon' 
+      },
     },
     list: {
-      options: ['unordered', 'ordered'],
+      options: ["unordered", "ordered"],
     },
     textAlign: {
-      options: ['left', 'center', 'right'],
+      options: ["left", "center", "right"],
     },
   };
 
@@ -25,7 +46,6 @@ const Show = () => {
   };
 
   const handleBlur = () => {
-    // Add a delay to handle blur before checking if the toolbar should be hidden
     setTimeout(() => {
       setIsFocused(false);
     }, 200);
@@ -39,6 +59,9 @@ const Show = () => {
       <div className="flex justify-around">
         <span className="p-3 border w-[20%] text-center border-gray-200 hover:bg-gray-100 duration-500">
           Input
+          <FontAwesomeIcon icon={faBold} />
+          <FontAwesomeIcon icon={faItalic} />
+          <FontAwesomeIcon icon={faUnderline} />
         </span>
         <span className="p-3 border w-[20%] text-center border-gray-200 hover:bg-gray-100 duration-500">
           Comments
@@ -61,7 +84,9 @@ const Show = () => {
             toolbar={toolbarOptions}
             wrapperClassName="rdw-editor-wrapper"
             editorClassName="rdw-editor-main"
-            toolbarClassName={`rdw-editor-toolbar ${isFocused ? 'visible' : 'hidden'}`}
+            toolbarClassName={`rdw-editor-toolbar ${
+              isFocused ? "visible" : "hidden"
+            }`}
             onFocus={handleFocus}
             onBlur={handleBlur}
             placeholder="Add Description"
