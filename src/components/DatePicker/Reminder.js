@@ -6,7 +6,7 @@ const TimeWrapper = styled("div")(({ theme }) => ({
   left: "1673px",
   width: "199px",
   height: "210px",
-  padding: "10px",
+  padding: "5px",
   overflowY: "auto",
   position: "absolute",
   fontSize: "14px",
@@ -16,7 +16,6 @@ const TimeWrapper = styled("div")(({ theme }) => ({
   borderRadius: "4px",
   boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
   textAlign: "left",
-paddingLeft: "30px",
   zIndex: 1000,
   msOverflowStyle: "none", // For Internet Explorer and Edge
   scrollbarWidth: "none", // For Firefox
@@ -28,6 +27,7 @@ paddingLeft: "30px",
 
 const TimeOption = styled("div")(({ theme }) => ({
   padding: "5px 10px",
+  paddingLeft: "30px",
   cursor: "pointer",
   "&:hover": {
     backgroundColor: "#f0f0f0",

@@ -28,6 +28,8 @@ const SetDate = () => {
       setSelectedDate(newDate);
     }
   };
+  console.log(selectedDate?.toLocaleDateString());
+
 
   const handleTimeClick = () => {
     setShowTime(!showTime);
@@ -39,18 +41,19 @@ const SetDate = () => {
 
   const handleRepeatClick = () => {
     setShowRepeat(!showRepeat);
-  };
+  };  
 
   const handleTimeSelect = (time) => {
-    const [hours, minutes] = time.split(":").map(Number);
-    const newDate = new Date(selectedDate);
-    newDate.setHours(hours);
-    newDate.setMinutes(minutes);
-    setSelectedDate(newDate);
-    setShowTime(false);
+    if (time) {
+      const [hours, minutes] = time.split(":").map(Number);
+      const newDate = new Date(selectedDate);
+      newDate.setHours(hours);
+      newDate.setMinutes(minutes);
+      setSelectedDate(newDate);
+      setShowTime(false);
+      console.log(selectedDate);
+    }
   };
-
-  console.log(selectedDate);
 
   return (
     <div>
