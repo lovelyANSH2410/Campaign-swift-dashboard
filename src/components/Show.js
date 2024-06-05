@@ -2,18 +2,24 @@ import React, { useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorWrapper } from "./TextEditor/EditorWrapper";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBold,
-  faItalic,
-  faUnderline,
-} from "@fortawesome/free-solid-svg-icons";
 import SetDate from "./DatePicker/SetDate";
+import { Box, Tab } from "@mui/material";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import BasicTable from "./Pages/Timelog";
+import History from "./Pages/History";
+import Submission from "./Pages/Submission";
 
 const Show = () => {
   const [toggle, setToggle] = useState(false);
   const [editorState, setEditorState] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const toolbarOptions = {
     options: [
@@ -26,18 +32,18 @@ const Show = () => {
     ],
     inline: {
       options: ["bold", "italic", "underline"],
-      bold: {
-        icon: <FontAwesomeIcon icon={faBold} />,
-        className: "custom-icon",
-      },
-      italic: {
-        icon: <FontAwesomeIcon icon={faItalic} />,
-        className: "custom-icon",
-      },
-      underline: {
-        icon: <FontAwesomeIcon icon={faUnderline} />,
-        className: "custom-icon",
-      },
+      // bold: {
+      //   icon: <FontAwesomeIcon icon={faBold} />,
+      //   className: "custom-icon",
+      // },
+      // italic: {
+      //   icon: <FontAwesomeIcon icon={faItalic} />,
+      //   className: "custom-icon",
+      // },
+      // underline: {
+      //   icon: <FontAwesomeIcon icon={faUnderline} />,
+      //   className: "custom-icon",
+      // },
     },
     list: {
       options: ["unordered", "ordered"],
@@ -70,40 +76,42 @@ const Show = () => {
         {toggle && <SetDate />}
       </h1>
 
-      <div className="flex justify-around">
-        <span className="p-3 border w-[20%] text-center border-gray-200 hover:bg-gray-100 duration-500">
-          Input
-        </span>
-        <span className="p-3 border w-[20%] text-center border-gray-200 hover:bg-gray-100 duration-500">
-          Comments
-        </span>
-        <span className="p-3 border w-[20%] text-center border-gray-200 hover:bg-gray-100 duration-500">
-          Submission
-        </span>
-        <span className="p-3 border w-[20%] text-center border-gray-200 hover:bg-gray-100 duration-500">
-          History
-        </span>
-        <span className="p-3 border w-[20%] text-center border-gray-200 hover:bg-gray-100 duration-500">
-          Timelog
-        </span>
-      </div>
-      <div className="mx-10 my-5">
-        <EditorWrapper>
-          <Editor
-            editorState={editorState}
-            onEditorStateChange={setEditorState}
-            toolbar={toolbarOptions}
-            wrapperClassName="rdw-editor-wrapper"
-            editorClassName="rdw-editor-main"
-            toolbarClassName={`rdw-editor-toolbar ${
-              isFocused ? "visible" : "hidden"
-            }`}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder="Add Description"
-          />
-        </EditorWrapper>
-      </div>
+      <Box sx={{ width: "100%", typography: "body1" }}>
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Input" value="1" />
+              <Tab label="Comments" value="2" />
+              <Tab label="Submission" value="3" />
+              <Tab label="History" value="4" />
+              <Tab label="Time log" value="5" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            <div className="mx-10 my-5">
+              <EditorWrapper>
+                <Editor
+                  editorState={editorState}
+                  onEditorStateChange={setEditorState}
+                  toolbar={toolbarOptions}
+                  wrapperClassName="rdw-editor-wrapper"
+                  editorClassName="rdw-editor-main"
+                  toolbarClassName={`rdw-editor-toolbar ${
+                    isFocused ? "visible" : "hidden"
+                  }`}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  placeholder="Add Description"
+                />
+              </EditorWrapper>
+            </div>
+          </TabPanel>
+          <TabPanel value="2">Item Two</TabPanel>
+          <TabPanel sx={{p:0}} value="3"><Submission /></TabPanel>
+          <TabPanel sx={{p:0}} value="4"><History /></TabPanel>
+          <TabPanel sx={{p:0}} value="5"><BasicTable /></TabPanel>
+        </TabContext>
+      </Box>
     </div>
   );
 };

@@ -56,7 +56,8 @@ const AllCampaign = () => {
       let activeTask = null;
 
       for (let campaign of newCampaignData) {
-        if (!activeTask) activeTask = findAndRemoveTask(campaign.folders.tasks, active.id);
+        if (!activeTask)
+          activeTask = findAndRemoveTask(campaign.folders.tasks, active.id);
         if (activeTask) break;
       }
 
@@ -64,7 +65,9 @@ const AllCampaign = () => {
         for (let campaign of newCampaignData) {
           const container = findTaskContainer(campaign.folders.tasks, over.id);
           if (container) {
-            const overIndex = container.findIndex(task => task.id === over.id);
+            const overIndex = container.findIndex(
+              (task) => task.id === over.id
+            );
             container.splice(overIndex, 0, activeTask);
             break;
           }
@@ -94,30 +97,48 @@ const AllCampaign = () => {
         </div>
       </div>
       <AddOption />
-      <div>
-        <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
+      <div className="h-[calc(100vh-200px)] overflow-y-auto p-4 scrollbar-hide">
+        <DndContext
+          collisionDetection={closestCorners}
+          onDragEnd={handleDragEnd}
+        >
           <ul>
-            {(filteredData.length > 0 ? filteredData : campaignData).map((item, index1) => (
-              <li className="mx-14 my-5" key={item.id}>
-                <div className="font-semibold my-2 text-gray-600 bg-gray-100 p-2 px-5 rounded-lg">
-                  <i className="uil uil-megaphone"></i> {item.campaignName}
-                </div>
-                <div className="text-gray-600 mx-6 py-1 border-b">
-                  <i className="uil uil-angle-right-b"></i>{" "}
-                  <i className="uil uil-folder-minus"></i> {item.folders.folderTitle}
-                </div>
-                <SortableContext items={item.folders.tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>
-                  <ul>
-                    {item.folders.tasks.map((task, index2) => (
-                      <Task key={task.id} id={task.id} item={task} />
-                    ))}
-                  </ul>
-                </SortableContext>
-              </li>
-            ))}
+            {(filteredData.length > 0 ? filteredData : campaignData).map(
+              (item, index1) => (
+                <li className="mx-14 my-5" key={item.id}>
+                  <div className="font-semibold my-2 text-gray-600 bg-gray-100 p-2 px-5 rounded-lg">
+                    <i className="uil uil-megaphone"></i> {item.campaignName}
+                  </div>
+                  <div className="text-gray-600 mx-6 py-1 border-b">
+                    <i className="uil uil-angle-right-b"></i>{" "}
+                    <i className="uil uil-folder-minus"></i>{" "}
+                    {item.folders.folderTitle}
+                  </div>
+                  <SortableContext
+                    items={item.folders.tasks.map((task) => task.id)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    <ul>
+                      {item.folders.tasks.map((task, index2) => (
+                        <Task key={task.id} id={task.id} item={task} />
+                      ))}
+                    </ul>
+                  </SortableContext>
+                </li>
+              )
+            )}
           </ul>
         </DndContext>
       </div>
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none; /* IE and Edge */
+          scrollbar-width: none; /* Firefox */
+        }
+      `}</style>
     </div>
   );
 };
