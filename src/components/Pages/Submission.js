@@ -75,7 +75,7 @@ export default function Submission() {
     <>
       <TableContainer
         component={Paper}
-        sx={{ boxShadow: "none", borderBottom: ".5px solid #e0e0e0" }}
+        sx={{ boxShadow: "none", borderBottom: ".5px solid #e0e0e0", height:"750px" }}
       >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -118,7 +118,7 @@ export default function Submission() {
         page={page}
         onChange={handleChangePage}
         color="primary"
-        sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}
+        sx={{ display: 'flex', justifyContent: 'right', mt: 2 }}
       />
     </>
   );

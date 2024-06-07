@@ -22,7 +22,7 @@ const Options = () => {
 
   return (
     <div className="flex w-[97%] h-screen">
-      <div className="w-[16%] shadow-md bg-blue-100">
+      <div className="w-[16%] shadow-md bg-[#ECF1FE]">
         <div className="font-semibold px-6 py-7 border border-b-white">
           <div className="flex justify-between p-2 hover:bg-white rounded-md transition duration-500">
             <div>
