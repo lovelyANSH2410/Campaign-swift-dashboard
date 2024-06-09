@@ -114,7 +114,7 @@ const Show = () => {
           />
         </AvatarGroup>
         {toggle && <SetDate />}
-        {showToDo && <Todo />}
+        {showToDo && <Todo handleShowToDo={handleShowToDo} />}
       </div>
 
       <Box sx={{ width: "100%", typography: "body1" }}>
