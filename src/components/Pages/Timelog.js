@@ -13,24 +13,9 @@ function createData(id, started, ended, doneby) {
 }
 
 const rows = [
-  createData(
-    159,
-    "18/09/2023 | 12:15:00 PM",
-    "18/09/2023 | 12:15:00 PM",
-    "Manoj Jaiswal"
-  ),
-  createData(
-    237,
-    "18/09/2023 | 12:15:00 PM",
-    "18/09/2023 | 12:15:00 PM",
-    "Yogesh Jadhav"
-  ),
-  createData(
-    262,
-    "18/09/2023 | 12:15:00 PM",
-    "18/09/2023 | 12:15:00 PM",
-    "Manoj Jaiswal"
-  ),
+  createData(159, "18/09/2023 | 12:15:00 PM", "18/09/2023 | 12:15:00 PM", "Manoj Jaiswal"),
+  createData(237, "18/09/2023 | 12:15:00 PM", "18/09/2023 | 12:15:00 PM", "Yogesh Jadhav"),
+  createData(262, "18/09/2023 | 12:15:00 PM", "18/09/2023 | 12:15:00 PM", "Manoj Jaiswal"),
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -38,15 +23,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: "#E9EFF6",
     color: "#696B78",
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "left",
     borderBottom: "2px solid #f0f0f0",
+    paddingLeft: theme.spacing(5),
   },
   [`&.${tableCellClasses.body}`]: {
     backgroundColor: "white",
     color: "#7E84A3",
     fontSize: 14,
-    textAlign: "center",
+    textAlign: "left",
     borderBottom: "1px solid #f0f0f0",
+    paddingLeft: theme.spacing(5), 
   },
 }));
 
@@ -54,7 +41,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -66,7 +52,7 @@ export default function BasicTable() {
       component={Paper}
       sx={{ boxShadow: "none", borderBottom: ".5px solid #e0e0e0" }}
     >
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 761 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Started at</StyledTableCell>

@@ -38,15 +38,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: "#E9EFF6",
     color: "#696B78",
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "left",
     borderBottom: "2px solid #f0f0f0",
+    paddingLeft: theme.spacing(5),
   },
   [`&.${tableCellClasses.body}`]: {
     backgroundColor: "white",
     color: "#7E84A3",
     fontSize: 14,
-    textAlign: "center",
+    textAlign: "left",
     borderBottom: "1px solid #f0f0f0",
+    paddingLeft: theme.spacing(5),
+
   },
 }));
 

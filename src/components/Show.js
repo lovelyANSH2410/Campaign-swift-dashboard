@@ -13,6 +13,7 @@ import Submission from "./Pages/Submission";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Todo from "./Pages/Todo";
 import { Icon } from "@iconify/react";
+import DueDate from "./Pages/DueDate";
 
 const Show = () => {
   const [toggle, setToggle] = useState(false);
@@ -20,6 +21,7 @@ const Show = () => {
   const [editorState, setEditorState] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState("1");
+  const [ShowDueDate, setShowDueDate] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -27,6 +29,10 @@ const Show = () => {
 
   const handleShowToDo = () => {
     setShowToDo(!showToDo);
+  };
+
+  const handleDueDateShow = () => {
+    setShowDueDate(!ShowDueDate);
   };
 
   const toolbarOptions = {
@@ -71,7 +77,7 @@ const Show = () => {
   return (
     <div className="">
       <div
-        className="flex border-b-2 border-#EDEDED text-xl font-semibold"
+        className="flex border-b-2 align-middle"
         style={{ paddingBottom: 15 }}
       >
         <Icon
@@ -85,9 +91,9 @@ const Show = () => {
         <Typography
           sx={{
             ml: "10px",
-            fontSize: "16px",
+            fontSize: "18px",
             fontWeight: "bold",
-            marginTop: "19px",
+            marginTop: "17px",
             color: "#191919",
           }}
         >
@@ -151,11 +157,14 @@ const Show = () => {
           style={{
             color: "navy",
             marginTop: "19px",
-            marginLeft: "280px",
+            marginLeft: "270px",
             width: "26px",
             height: "26px ",
+            cursor:'pointer'
           }}
+          onClick={handleDueDateShow}
         />
+        {ShowDueDate && <DueDate />}
         {toggle && <SetDate />}
         {showToDo && <Todo handleShowToDo={handleShowToDo} />}
       </div>
