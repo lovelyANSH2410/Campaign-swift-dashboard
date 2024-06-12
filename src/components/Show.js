@@ -3,14 +3,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorWrapper } from "./TextEditor/EditorWrapper";
 import SetDate from "./DatePicker/SetDate";
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  Tab,
-  Typography,
-} from "@mui/material";
+import { Avatar, AvatarGroup, Box, Tab, Typography } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -18,16 +11,15 @@ import BasicTable from "./Pages/Timelog";
 import History from "./Pages/History";
 import Submission from "./Pages/Submission";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import TourIcon from "@mui/icons-material/Tour";
 import Todo from "./Pages/Todo";
+import { Icon } from "@iconify/react";
 
 const Show = () => {
   const [toggle, setToggle] = useState(false);
   const [showToDo, setShowToDo] = useState(false);
   const [editorState, setEditorState] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -48,18 +40,6 @@ const Show = () => {
     ],
     inline: {
       options: ["bold", "italic", "underline"],
-      // bold: {
-      //   icon: <FontAwesomeIcon icon={faBold} />,
-      //   className: "custom-icon",
-      // },
-      // italic: {
-      //   icon: <FontAwesomeIcon icon={faItalic} />,
-      //   className: "custom-icon",
-      // },
-      // underline: {
-      //   icon: <FontAwesomeIcon icon={faUnderline} />,
-      //   className: "custom-icon",
-      // },
     },
     list: {
       options: ["unordered", "ordered"],
@@ -79,40 +59,103 @@ const Show = () => {
     }, 200);
   };
 
+  const tabStyle = (isSelected) => ({
+    width: "155px",
+    borderRight: "2px solid #EDEDED",
+    textTransform: "none",
+    backgroundColor: isSelected ? "#F9F9F9" : "transparent",
+    fontWeight: isSelected ? "600" : "normal",
+    color: "#6A6A6A",
+  });
+
   return (
     <div className="">
-      <div className="flex border-b px-6 py-4 border-gray-200 text-xl font-semibold">
-        <Typography variant="h8" sx={{ mx: "12px" }}>
-          <TourIcon sx={{ color: "#d40202" }} /> My First Task
-        </Typography>{" "}
+      <div
+        className="flex border-b-2 border-#EDEDED text-xl font-semibold"
+        style={{ paddingBottom: 15 }}
+      >
+        <Icon
+          icon="carbon:flag-filled"
+          style={{
+            color: "red",
+            marginTop: "21px",
+            marginLeft: 46.5,
+          }}
+        />
         <Typography
-          sx={{ color: "#0058FF", py: "5px", mx: "5px", cursor:"pointer" }}
+          sx={{
+            ml: "10px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            marginTop: "19px",
+            color: "#191919",
+          }}
+        >
+          My First Task
+        </Typography>
+        <Typography
+          sx={{
+            color: "#0058FF",
+            cursor: "pointer",
+            ml: "15px",
+            marginTop: "19px",
+            fontSize: "14px",
+          }}
           onClick={handleShowToDo}
         >
-          {" "}
           TO DO <KeyboardArrowDownIcon sx={{ color: "gray" }} />
         </Typography>
-        <span onClick={() => setToggle(!toggle)}>
-          <CalendarMonthIcon
-            sx={{ ml: "10px", color: "#0058FF", cursor: "pointer" }}
+        <span
+          onClick={() => setToggle(!toggle)}
+          style={{ display: "flex", marginTop: "21px", cursor: "pointer" }}
+        >
+          <Icon
+            icon="solar:calendar-outline"
+            style={{
+              color: "blue",
+              marginLeft: "14.67px",
+              width: 16,
+              height: 17,
+            }}
           />
-          <Button sx={{ color: "gray", mr: "5px" }}>Set Date</Button>
+          <Typography
+            sx={{
+              color: "gray",
+              mr: "5px",
+              fontSize: "14px",
+              marginLeft: "10px",
+            }}
+          >
+            Set Date
+          </Typography>
         </span>
-        <AvatarGroup max={2}>
+        <AvatarGroup max={2} style={{ marginLeft: "15px" }}>
           <Avatar
-            sx={{ height: "30px", width: "30px" }}
+            sx={{ height: "32px", width: "32px", marginTop: "15px" }}
             alt="Remy Sharp"
             src="https://avatars.githubusercontent.com/u/110022447?v=4"
           />
-          <Avatar
-            sx={{
-              height: "30px",
-              width: "30px",
+          <Icon
+            icon="fluent-mdl2:add-to"
+            style={{
+              color: "gray",
+              width: "34px",
+              height: "34px",
+              marginLeft: -2,
+              marginTop: "17px",
             }}
-            alt="+"
-            src="/static/images/avatar/2.jpg"
           />
         </AvatarGroup>
+        <Icon
+          icon="lets-icons:meatballs-menu"
+          style={{
+            color: "navy",
+            marginTop: "19px",
+            marginLeft: "280px",
+            width: "26px",
+            height: "26px ",
+          }}
+        />
         {toggle && <SetDate />}
         {showToDo && <Todo handleShowToDo={handleShowToDo} />}
       </div>
@@ -120,12 +163,23 @@ const Show = () => {
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Input" value="1" />
-              <Tab label="Comments" value="2" />
-              <Tab label="Submission" value="3" />
-              <Tab label="History" value="4" />
-              <Tab label="Time log" value="5" />
+            <TabList
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+              sx={{
+                ".MuiTabs-indicator": {
+                  display: "none", // Hide the blue bottom border
+                },
+                ".Mui-selected": {
+                  color: "#6A6A6A !important", // Ensure the selected tab text color is gray
+                },
+              }}
+            >
+              <Tab label="Input" value="1" sx={tabStyle(value === "1")} />
+              <Tab label="Comments" value="2" sx={tabStyle(value === "2")} />
+              <Tab label="Submission" value="3" sx={tabStyle(value === "3")} />
+              <Tab label="History" value="4" sx={tabStyle(value === "4")} />
+              <Tab label="Time log" value="5" sx={tabStyle(value === "5")} />
             </TabList>
           </Box>
           <TabPanel value="1">

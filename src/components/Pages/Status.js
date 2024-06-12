@@ -10,9 +10,8 @@ import {
   ListItemSecondaryAction,
   Paper,
 } from "@mui/material";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export const ManageStatus = ({ handleShowStatus, handleShowToDo }) => {
   const [statuses, setStatuses] = useState([
@@ -78,19 +77,24 @@ export const ManageStatus = ({ handleShowStatus, handleShowToDo }) => {
               <IconButton
                 edge="end"
                 aria-label="edit"
-                sx={{color:"#9F9F9F"}}
+                sx={{ color: "#9F9F9F" }}
                 onClick={() => handleEditStatus(status.id)}
               >
-                <DriveFileRenameOutlineIcon sx={{ fontSize: 20 }} />
+                <Icon
+                  icon="mage:edit-pen"
+                  style={{ color: "#9F9F9F", marginRight: 3 }}
+                />
               </IconButton>
               <IconButton
                 edge="end"
                 aria-label="delete"
-                sx={{color:"#9F9F9F"}}
-
+                sx={{ color: "#9F9F9F" }}
                 onClick={() => handleDeleteStatus(status.id)}
               >
-                <DeleteOutlineIcon sx={{ fontSize: 20 }} />
+                <Icon
+                  icon="ant-design:delete-outlined"
+                  style={{ color: "#9F9F9F" }}
+                />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
@@ -107,7 +111,9 @@ export const ManageStatus = ({ handleShowStatus, handleShowToDo }) => {
           }}
         >
           <IconButton edge="end" aria-label="add" onClick={handleAddStatus}>
-            <AddCircleOutlineIcon sx={{ width: 20, height: 20, color:"#9F9F9F" }} />
+            <AddCircleOutlineIcon
+              sx={{ width: 18, height: 18, color: "#9F9F9F" }}
+            />
           </IconButton>
           <TextField
             value={newStatus}
@@ -124,7 +130,7 @@ export const ManageStatus = ({ handleShowStatus, handleShowToDo }) => {
         </ListItem>
       </List>
       <Box
-        mt={2}
+        mt={1}
         mb={2}
         mx={4}
         display={"flex"}
@@ -135,9 +141,14 @@ export const ManageStatus = ({ handleShowStatus, handleShowToDo }) => {
           variant="outlined"
           sx={{
             textAlign: "center",
+            height: "35px",
             width: "115px",
             color: "gray",
             borderColor: "#ECF1FE",
+            ":hover": {
+              backgroundColor: "none",
+              borderColor: "lightgray",
+            },
           }}
           onClick={() => {
             handleShowStatus();
@@ -151,8 +162,12 @@ export const ManageStatus = ({ handleShowStatus, handleShowToDo }) => {
           variant="contained"
           sx={{
             textAlign: "center",
+            height: "35px",
             width: "115px",
             backgroundColor: "#0058FF",
+            ":hover": {
+              backgroundColor: "#0058FF",
+            },
           }}
         >
           Done
