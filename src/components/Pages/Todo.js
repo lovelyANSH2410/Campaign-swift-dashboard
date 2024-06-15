@@ -1,8 +1,5 @@
-import { styled } from "@mui/material";
+import { Menu, MenuItem, styled } from "@mui/material";
 import React, { useState } from "react";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { ManageStatus } from "./Status";
 
 const TimeWrapper = styled("div")(({ theme }) => ({
@@ -29,17 +26,32 @@ const TimeWrapper = styled("div")(({ theme }) => ({
   },
 }));
 
-const TimeOption = styled("div")(({ theme }) => ({
-  padding: "2px",
-  paddingLeft: "20px",
-  cursor: "pointer",
-  "&:hover": {
-    backgroundColor: "#f0f0f0",
+const StyledMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    backgroundColor: "white",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+    width: "183px",
+    height: "210px",
+    top:"100px",
+    overflowY: "auto",
+    // Hide scroll bar for WebKit browsers (Chrome, Safari, Opera)
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    // Hide scroll bar for Firefox
+    scrollbarWidth: "none",
+    // Hide scroll bar for Internet Explorer and Edge
+    "-ms-overflow-style": "none",
   },
 }));
 
-const Todo = ({ handleShowToDo }) => {
-  const times = ["To Do", "Query", "Revision", "Finished"];
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  "& svg": { marginRight: theme.spacing(2) },
+}));
+
+const Todo = ({ handleShowToDo, anchorEl, handleMenuClose }) => {
   const [showStatus, setShowStatus] = useState(false);
 
   const handleShowStatus = () => {
@@ -48,31 +60,25 @@ const Todo = ({ handleShowToDo }) => {
 
   return (
     <>
-      <TimeWrapper>
-        {times.map((time, index) => (
-          <TimeOption key={index}>
-            {" "}
-            <ErrorOutlineIcon
-              sx={{ width: "15px", mb: "2px", mr: "5px", color: "#9F9F9F" }}
-            />{" "}
-            {time}
-          </TimeOption>
-        ))}
-        <TimeOption>
-          <AddCircleOutlineIcon
-            sx={{ width: "15px", mb: "2px", mr: "5px", color: "#9F9F9F" }}
-          />{" "}
-          Add New
-        </TimeOption>
-        <TimeOption onClick={handleShowStatus}>
-          <DriveFileRenameOutlineIcon
-            sx={{ width: "15px", mb: "2px", mr: "5px", color: "#9F9F9F" }}
-          />{" "}
-          Manage Status
-        </TimeOption>
-      </TimeWrapper>
+      <StyledMenu
+        anchorReference="anchorPosition"
+        anchorPosition={{ top: 47, left: 1332 }}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <StyledMenuItem onClick={handleMenuClose}>To Do</StyledMenuItem>
+        <StyledMenuItem onClick={handleMenuClose}>Query</StyledMenuItem>
+        <StyledMenuItem onClick={handleMenuClose}>Revision</StyledMenuItem>
+        <StyledMenuItem onClick={handleMenuClose}>Finished</StyledMenuItem>
+        <StyledMenuItem onClick={handleMenuClose}>Add New</StyledMenuItem>
+        <StyledMenuItem onClick={handleMenuClose}>Manage Status</StyledMenuItem>
+      </StyledMenu>
       {showStatus && (
-        <ManageStatus handleShowStatus={handleShowStatus} handleShowToDo={handleShowToDo} />
+        <ManageStatus
+          handleShowStatus={handleShowStatus}
+          handleShowToDo={handleShowToDo}
+        />
       )}
     </>
   );

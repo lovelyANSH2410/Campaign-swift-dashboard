@@ -75,33 +75,53 @@ const DueDate = () => {
           sx={{
             display: "flex",
             paddingBottom: "10px",
-            borderBottom: "1px solid #F3F3F3",
+            borderBottom: "1px solid #ededed",
             justifyContent: "space-between",
             marginBottom: "10px",
           }}
         >
           <Icon
             icon="carbon:flag-filled"
-            style={{ color: "red", width: 12, height: 14 }}
+            style={{
+              color: "#d52b24",
+              width: 12,
+              height: 14,
+              cursor: "pointer",
+            }}
           />
           <Icon
             icon="carbon:flag-filled"
-            style={{ color: "yellow", width: 12, height: 14 }}
+            style={{
+              color: "#faa80c",
+              width: 12,
+              height: 14,
+              cursor: "pointer",
+            }}
           />
           <Icon
             icon="carbon:flag-filled"
-            style={{ color: "blue", width: 12, height: 14 }}
+            style={{
+              color: "#0058ff",
+              width: 12,
+              height: 14,
+              cursor: "pointer",
+            }}
           />
           <Icon
             icon="carbon:flag"
-            style={{ color: "gray", width: 12, height: 14 }}
+            style={{
+              color: "#a2a2a2",
+              width: 12,
+              height: 14,
+              cursor: "pointer",
+            }}
           />
         </Box>
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            borderBottom: ".1px solid #F3F3F3",
+            borderBottom: ".1px solid #ededed",
             paddingBottom: "10px",
           }}
         >
@@ -174,7 +194,7 @@ const DueDate = () => {
           </Box>
           <Box
             sx={{
-              borderBottom: ".1px solid #F3F3F3",
+              borderBottom: ".1px solid #ededed",
               display: "flex",
               alignItems: "center",
               marginTop: "12px",
@@ -206,7 +226,7 @@ const DueDate = () => {
           </Box>
           <Box
             sx={{
-              borderBottom: ".1px solid #F3F3F3",
+              borderBottom: ".1px solid #ededed",
               display: "flex",
               marginTop: "12px",
               alignItems: "center",

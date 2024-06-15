@@ -3,7 +3,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorWrapper } from "./TextEditor/EditorWrapper";
 import SetDate from "./DatePicker/SetDate";
-import { Avatar, AvatarGroup, Box, Tab, Typography } from "@mui/material";
+import { Avatar, AvatarGroup, Box, Tab, Typography, Menu, MenuItem } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -21,7 +21,18 @@ const Show = () => {
   const [editorState, setEditorState] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState("1");
-  const [ShowDueDate, setShowDueDate] = useState(false);
+  const [showDueDate, setShowDueDate] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const rowOptionsOpen = Boolean(anchorEl);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+    setShowToDo(true);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -32,7 +43,7 @@ const Show = () => {
   };
 
   const handleDueDateShow = () => {
-    setShowDueDate(!ShowDueDate);
+    setShowDueDate(!showDueDate);
   };
 
   const toolbarOptions = {
@@ -107,7 +118,7 @@ const Show = () => {
             marginTop: "19px",
             fontSize: "14px",
           }}
-          onClick={handleShowToDo}
+          onClick={handleMenuOpen}
         >
           TO DO <KeyboardArrowDownIcon sx={{ color: "gray" }} />
         </Typography>
@@ -160,13 +171,19 @@ const Show = () => {
             marginLeft: "270px",
             width: "26px",
             height: "26px ",
-            cursor:'pointer'
+            cursor: "pointer",
           }}
           onClick={handleDueDateShow}
         />
-        {ShowDueDate && <DueDate />}
+        {showDueDate && <DueDate />}
         {toggle && <SetDate />}
-        {showToDo && <Todo handleShowToDo={handleShowToDo} />}
+        {showToDo && (
+          <Todo
+            handleShowToDo={handleShowToDo}
+            anchorEl={anchorEl}
+            handleMenuClose={handleMenuClose}
+          />
+        )}
       </div>
 
       <Box sx={{ width: "100%", typography: "body1" }}>
