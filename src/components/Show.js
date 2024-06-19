@@ -3,7 +3,15 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorWrapper } from "./TextEditor/EditorWrapper";
 import SetDate from "./DatePicker/SetDate";
-import { Avatar, AvatarGroup, Box, Tab, Typography, Menu, MenuItem } from "@mui/material";
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Tab,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -14,6 +22,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Todo from "./Pages/Todo";
 import { Icon } from "@iconify/react";
 import DueDate from "./Pages/DueDate";
+import Sandbox from "./FilePicker/Sandbox";
 
 const Show = () => {
   const [toggle, setToggle] = useState(false);
@@ -239,6 +248,9 @@ const Show = () => {
           </TabPanel>
         </TabContext>
       </Box>
+      <div style={{ textAlign: "center" }}>
+        <Sandbox />
+      </div>
     </div>
   );
 };
