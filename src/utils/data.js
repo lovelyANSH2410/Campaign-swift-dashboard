@@ -5,23 +5,23 @@ export const data = [
     campaignName: "IndiaFont March Pro",
     folders: {
       id: "folder-1",
-      folderTitle: "Folder title",
+      folderTitle: "Folder Sample",
       tasks: [
         {
           id: "task-1",
-          taskTitle: "Task one here",
+          taskTitle: "Note Sample",
           status: "In-progress",
           dueDate: "Today",
         },
         {
           id: "task-2",
-          taskTitle: "Task two title",
+          taskTitle: "Diwali Article Writing",
           status: "Completed",
           dueDate: "Tomorrow",
         },
         {
           id: "task-3",
-          taskTitle: "Task three name",
+          taskTitle: "Diwali Offer",
           status: "Completed",
           dueDate: "Tomorrow",
         },
@@ -74,7 +74,7 @@ export const data = [
     campaignName: "IndiaFont April Pro",
     folders: {
       id: "folder-4",
-      folderTitle: "Folder title",
+      folderTitle: "Folder Sample",
       tasks: [
         {
           id: "task-8",
@@ -103,7 +103,7 @@ export const data = [
     campaignName: "IndiaFont May Pro",
     folders: {
       id: "folder-5",
-      folderTitle: "Folder title",
+      folderTitle: "Folder Sample",
       tasks: [
         {
           id: "task-11",

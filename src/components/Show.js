@@ -22,7 +22,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Todo from "./Pages/Todo";
 import { Icon } from "@iconify/react";
 import DueDate from "./Pages/DueDate";
-import Sandbox from "./FilePicker/Sandbox";
 
 const Show = () => {
   const [toggle, setToggle] = useState(false);
@@ -248,9 +247,6 @@ const Show = () => {
           </TabPanel>
         </TabContext>
       </Box>
-      <div style={{ textAlign: "center" }}>
-        <Sandbox />
-      </div>
     </div>
   );
 };

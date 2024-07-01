@@ -1,61 +1,128 @@
-import { Menu, MenuItem, styled } from "@mui/material";
 import React, { useState } from "react";
-import { ManageStatus } from "./Status";
-
-const TimeWrapper = styled("div")(({ theme }) => ({
-  top: "47px",
-  left: "1332px",
-  width: "183px",
-  height: "210px",
-  padding: "5px",
-  overflowY: "auto",
-  position: "absolute",
-  fontSize: "14px",
-  backgroundColor: "white",
-  border: "1px solid #ccc",
-  color: "#6a6a6a",
-  borderRadius: "4px",
-  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-  textAlign: "left",
-  zIndex: 10,
-  msOverflowStyle: "none", // For Internet Explorer and Edge
-  scrollbarWidth: "none", // For Firefox
-  "&::-webkit-scrollbar": {
-    // For Chrome, Safari, and Opera
-    display: "none",
-  },
-}));
+import { Menu, MenuItem, styled, Checkbox, ListItemText, Typography } from "@mui/material";
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
   "& .MuiPaper-root": {
-    backgroundColor: "white",
+    position: "absolute",
+    backgroundColor: "#FFFFFF 0% 0% no-repeat padding-box",
     border: "1px solid #ccc",
     borderRadius: "4px",
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-    width: "183px",
-    height: "210px",
-    top:"100px",
+    marginTop: "169px",
+    boxShadow: "0 0px 6px rgba(0, 0, 0, 0.1)",
+    width: "174px",
+    height: "231px",
     overflowY: "auto",
-    // Hide scroll bar for WebKit browsers (Chrome, Safari, Opera)
     "&::-webkit-scrollbar": {
       display: "none",
     },
-    // Hide scroll bar for Firefox
     scrollbarWidth: "none",
-    // Hide scroll bar for Internet Explorer and Edge
     "-ms-overflow-style": "none",
   },
 }));
 
-const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-  "& svg": { marginRight: theme.spacing(2) },
+const StyledSubMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    backgroundColor: "white",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    boxShadow: "0 0px 6px rgba(0, 0, 0, 0.1)",
+    width: "174px",
+    marginLeft: "100px",
+    marginTop: "213px",
+    height: "158px",
+    overflowY: "auto",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    scrollbarWidth: "none",
+    "-ms-overflow-style": "none",
+  },
 }));
 
-const Todo = ({ handleShowToDo, anchorEl, handleMenuClose }) => {
-  const [showStatus, setShowStatus] = useState(false);
+const StyledMenuItem = styled(MenuItem)(({ theme, selected }) => ({
+  display: "flex",
+  alignItems: "center",
+  height: "36.6px",
+  margin: "5px",
+  color: "#9F9F9F",
+  backgroundColor: selected ? theme.palette.action.selected : "inherit",
+  "&:hover": {
+    backgroundColor: selected ? theme.palette.action.hover : theme.palette.action.hover,
+  },
+  "& .MuiTypography-root": {
+    fontSize: "14px", 
+  },
+}));
 
-  const handleShowStatus = () => {
-    setShowStatus(!showStatus);
+const StyledSubMenuItem = styled(MenuItem)(({ theme, selected }) => ({
+  display: "flex",
+  alignItems: "center",
+  height: "36.6px",
+  margin: "0px 5px",
+  padding:"23px",
+  color: "#9F9F9F",
+  backgroundColor: selected ? theme.palette.action.selected : "inherit",
+  "&:hover": {
+    backgroundColor: selected ? theme.palette.action.hover : theme.palette.action.hover,
+  },
+  "& .MuiTypography-root": {
+    fontSize: "14px",
+  },
+}));
+
+const mainMenuItems = ["Select All", "Facebook", "Instagram", "LinkedIn", "Pinterest"];
+const facebookSubMenuItems = ["Select All", "IndiaFont", "AMS"];
+
+const CustomCheckbox = styled(Checkbox)(({ theme }) => ({
+  color: "#9F9F9F",
+  "& .MuiSvgIcon-root": {
+    borderRadius: "50%", // This will change the border radius to be circular
+  },
+}));
+
+const NestedMenu = ({ anchorEl, handleMenuClose }) => {
+  const [checkedItems, setCheckedItems] = useState({});
+  const [showFacebookSubMenu, setShowFacebookSubMenu] = useState(false);
+  const [anchorElSubMenu, setAnchorElSubMenu] = useState(null);
+
+  const handleSelectAll = () => {
+    const allChecked = mainMenuItems.reduce((acc, item) => {
+      if (item !== "Select All") {
+        acc[item] = true;
+      }
+      return acc;
+    }, {});
+    setCheckedItems(allChecked);
+  };
+
+  const handleItemClick = (item, isSubmenu = false) => {
+    if (item === "Select All") {
+      handleSelectAll();
+      return;
+    }
+
+    const newCheckedItems = {
+      ...checkedItems,
+      [item]: !checkedItems[item],
+    };
+    setCheckedItems(newCheckedItems);
+
+    if (!isSubmenu && item === "Facebook") {
+      if (!checkedItems[item]) {
+        // Checkbox was unchecked, now checked
+        setAnchorElSubMenu(anchorEl);
+        setShowFacebookSubMenu(true);
+      } else {
+        // Checkbox was checked, now unchecked
+        setShowFacebookSubMenu(false);
+        setAnchorElSubMenu(null);
+      }
+    }
+  };
+
+  const handleSubMenuClose = () => {
+    setShowFacebookSubMenu(false);
+    setAnchorElSubMenu(null);
   };
 
   return (
@@ -67,21 +134,44 @@ const Todo = ({ handleShowToDo, anchorEl, handleMenuClose }) => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <StyledMenuItem onClick={handleMenuClose}>To Do</StyledMenuItem>
-        <StyledMenuItem onClick={handleMenuClose}>Query</StyledMenuItem>
-        <StyledMenuItem onClick={handleMenuClose}>Revision</StyledMenuItem>
-        <StyledMenuItem onClick={handleMenuClose}>Finished</StyledMenuItem>
-        <StyledMenuItem onClick={handleMenuClose}>Add New</StyledMenuItem>
-        <StyledMenuItem onClick={handleMenuClose}>Manage Status</StyledMenuItem>
+        {mainMenuItems.map((item, index) => (
+          <StyledMenuItem
+            key={index}
+            selected={!!checkedItems[item]}
+            onClick={() => handleItemClick(item)}
+          >
+            <CustomCheckbox sx={{ borderRadius: "50%" }} checked={!!checkedItems[item]} />
+            <ListItemText
+              primary={<Typography>{item}</Typography>}
+            />
+          </StyledMenuItem>
+        ))}
       </StyledMenu>
-      {showStatus && (
-        <ManageStatus
-          handleShowStatus={handleShowStatus}
-          handleShowToDo={handleShowToDo}
-        />
-      )}
+
+      <StyledSubMenu
+        anchorEl={anchorElSubMenu}
+        keepMounted
+        open={showFacebookSubMenu}
+        onClose={handleSubMenuClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
+      >
+        {facebookSubMenuItems.map((item, index) => (
+          <StyledSubMenuItem
+            key={index}
+            selected={!!checkedItems[item]}
+            onClick={() => handleItemClick(item, true)}
+          >
+            <CustomCheckbox checked={!!checkedItems[item]} />
+            <ListItemText
+              primary={<Typography>{item}</Typography>}
+              secondary={item === "IndiaFont" || item === "AMS" ? "Facebook" : null}
+            />
+          </StyledSubMenuItem>
+        ))}
+      </StyledSubMenu>
     </>
   );
 };
 
-export default Todo;
+export default NestedMenu;
