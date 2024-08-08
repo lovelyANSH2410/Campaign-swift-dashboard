@@ -1,15 +1,27 @@
 import React, { useState } from "react";
-import { data } from "../../utils/data";
 import { useSelector } from "react-redux";
-import { selectFilters } from "../../utils/sortSlice";
-import Task from "./Task";
-import AddOption from "./AddOption";
 import { DndContext, closestCorners } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { Icon } from "@iconify/react";
+import {
+  Box,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Paper,
+} from "@mui/material";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import SortIcon from "@mui/icons-material/Sort";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { selectFilters } from "../../utils/sortSlice";
+import { data } from "../../utils/data";
+import Task from "./Task";
+import AddOption from "./AddOption";
 
 const AllCampaign = () => {
   const [showSort, setShowSort] = useState(false);
@@ -84,58 +96,117 @@ const AllCampaign = () => {
   };
 
   return (
-    <div className="h-screen border-r">
-      <div className="flex justify-between px-10 py-6">
-        <div className="flex">
-          <Icon
-            icon="material-symbols-light:menu-open"
-            width="30"
-            height="30"
-            style={{ color: 'gray' }}
-          />{" "}
-          <p className="text-xl font-semibold text-gray-700">Job Queue</p>
-        </div>
-        <div className="text-xl">
-          <button onClick={handleSort}>
-            <i className="uil uil-scroll px-2 text-gray-400"></i>
-          </button>
-          <i className="uil uil-ellipsis-h px-2 text-gray-400"></i>
-        </div>
-      </div>
+    <Box
+      height="100vh"
+      borderRight="1px solid #f3f3f3"
+      width="790px"
+      overflow="hidden"
+    >
+      <Box display="flex" justifyContent="space-between" px="50px" mt="25px">
+        <Box display="flex" alignItems="center">
+          <MenuOpenIcon style={{ color: "gray" }} width="16px" />
+          <Typography fontSize={18} color="#191919" fontWeight="600" ml={1}>
+            Job Queue
+          </Typography>
+        </Box>
+        <Box display="flex" alignItems="center">
+          <IconButton onClick={handleSort}>
+            <SortIcon style={{ color: "gray" }} />
+          </IconButton>
+          <IconButton>
+            <MoreVertIcon style={{ color: "gray" }} />
+          </IconButton>
+        </Box>
+      </Box>
       <AddOption />
-      <div className="h-[calc(100vh-200px)] overflow-y-auto p-4 scrollbar-hide">
+      <Box
+        height="calc(100vh - 200px)"
+        overflow="auto"
+        className="scrollbar-hide"
+        px="35px"
+      >
         <DndContext
           collisionDetection={closestCorners}
           onDragEnd={handleDragEnd}
         >
-          <ul>
+          <List>
             {(filteredData.length > 0 ? filteredData : campaignData).map(
-              (item, index1) => (
-                <li className="mx-14 my-5" key={item.id}>
-                  <div className="font-semibold my-2 text-gray-600 bg-gray-100 p-2 px-5 rounded-lg">
-                    <i className="uil uil-megaphone"></i> {item.campaignName}
-                  </div>
-                  <div className="text-gray-600 mx-6 py-1 border-b">
-                    <i className="uil uil-angle-right-b"></i>{" "}
-                    <i className="uil uil-folder-minus"></i>{" "}
-                    {item.folders.folderTitle}
-                  </div>
-                  <SortableContext
-                    items={item.folders.tasks.map((task) => task.id)}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    <ul>
-                      {item.folders.tasks.map((task, index2) => (
-                        <Task key={task.id} id={task.id} item={task} />
-                      ))}
-                    </ul>
-                  </SortableContext>
-                </li>
+              (item) => (
+                <ListItem
+                  key={item.id}
+                  disableGutters
+                  style={{ width: "100%" }}
+                >
+                  <Box mx={2} my={2} width="100%">
+                    <Typography
+                      variant="body1"
+                      color="textSecondary"
+                      fontWeight="fontWeightBold"
+                      bgcolor="grey.100"
+                      p={1}
+                      px={2}
+                      borderRadius={2}
+                      width="100%"
+                      display="flex"
+                      height="40px"
+                    >
+                      <Box
+                        component="span"
+                        display="flex"
+                        alignItems="center"
+                        mr={1}
+                      >
+                        <Icon
+                          icon="mage:megaphone-b"
+                          width="20"
+                          height="20"
+                          style={{ color: "gray" }}
+                        />
+                      </Box>
+                      <Typography fontSize={14} fontWeight={600}>
+                        {item.campaignName}
+                      </Typography>
+                    </Typography>
+                    <ListItemText
+                      primary={
+                        <Box display="flex" alignItems="center" mt="26.5px" px={2}>
+                          <Icon
+                            icon="icon-park-outline:down"
+                            width="20"
+                            height="20"
+                            style={{ color: "gray" }}
+                          />
+                          <Box ml={1}>
+                          <Icon
+                            icon="fa6-solid:folder-open"
+                            width="21"
+                            height="17"
+                            style={{ color: "gray" }}
+                          /></Box>{" "}
+                          <Typography fontSize={14} fontWeight={600} color='#474747' ml={1}>
+                            {item?.folders?.folderTitle}
+                          </Typography>
+                        </Box>
+                      }
+                      style={{ width: "100%" }}
+                    />
+                    {/* <SortableContext
+                      items={item.folders.tasks.map((task) => task.id)}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      <List style={{ width: "100%", paddingLeft:"50px" }}>
+                        {item.folders.tasks.map((task) => (
+                          <Task key={task.id} id={task.id} item={task} />
+                        ))}
+                      </List>
+                    </SortableContext> */}
+                  </Box>
+                </ListItem>
               )
             )}
-          </ul>
+          </List>
         </DndContext>
-      </div>
+      </Box>
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
@@ -145,7 +216,7 @@ const AllCampaign = () => {
           scrollbar-width: none; /* Firefox */
         }
       `}</style>
-    </div>
+    </Box>
   );
 };
 

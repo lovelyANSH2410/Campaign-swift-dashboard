@@ -46,16 +46,13 @@ export const ManageStatus = ({ handleShowStatus, handleShowToDo }) => {
   };
 
   return (
-    <Paper
+    <Box
       elevation={3}
       sx={{
         px: 0,
         width: 304,
-        top: "55px",
-        left: "1250px",
         margin: "auto",
-        position: "absolute",
-        zIndex: "100",
+        zIndex: 100,
       }}
     >
       <Box
@@ -173,6 +170,6 @@ export const ManageStatus = ({ handleShowStatus, handleShowToDo }) => {
           Done
         </Button>
       </Box>
-    </Paper>
+    </Box>
   );
 };
